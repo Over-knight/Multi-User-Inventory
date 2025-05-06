@@ -4,7 +4,7 @@ export interface IStore extends mongoose.Document {
     _id: mongoose.Schema.Types.ObjectId;
     storeName: string;
     description: string;
-    vendor: mongoose.Schema.Types.ObjectId[];
+    vendor: mongoose.Schema.Types.ObjectId;
     staff: mongoose.Schema.Types.ObjectId[];
     address: string;
     phone: string;

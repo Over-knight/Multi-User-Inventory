@@ -4,7 +4,7 @@ import { register,
     getProfile, 
     updateProfile, 
     deleteProfile
- } from "../controllers/authControllers";
+ } from "../controllers/authController";
  import { protect } from "../middleware/authMiddleware";
  import { validateBody } from "../middleware/validate";
 import { registerSchema,
