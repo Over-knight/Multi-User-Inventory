@@ -1,115 +1,64 @@
+// src/server.ts
 import dotenv from "dotenv";
 dotenv.config();
 
+import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
-// import morgan from "morgan";
-
-import authRoutes from "./routes/authRoutes";
-import express from "express";
-import http from "http";
-import {Server as SocketIOServer, Socket} from "socket.io";
 import helmet from "helmet";
 import cors from "cors";
-import rateLimit from "express-rate-limit";
-import mongoSanitize from "express-mongo-sanitize";
+// import morgan from "morgan";
+
+// ─── IMPORT YOUR ROUTES ─────────────────────────────────────────────
+import authRoutes from "./routes/authRoutes";
+// import storeRoutes from "./routes/storeRoutes";
+// import productRoutes from "./routes/productRoutes";
+// import orderRoutes from "./routes/orderRoutes";
 
 const app = express();
-// app.use(morgan("tiny"));
+const PORT = process.env.PORT || 6000;
 
+// ─── GLOBAL MIDDLEWARE ──────────────────────────────────────────────
+app.use(helmet());                                         // secure headers
+app.use(cors({ origin: process.env.CORS_ORIGIN || "*" })); // enable CORS
+app.use(express.json({ limit: "10kb" }));                  // parse JSON
+// app.use(morgan("tiny"));                                   // request logging
 
-app.use(helmet());
+// ─── MOUNT YOUR ROUTES ─────────────────────────────────────────────
+app.use("/api/auth",    authRoutes);    // register, login, profile
+// app.use("/api/stores",  storeRoutes);   // create store, invite staff
+// app.use("/api/products",productRoutes); // CRUD products
+// app.use("/api/orders",  orderRoutes);   // place & track orders
 
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN?.split(", ") || "*",
-    methods: ["GET","POST","PUT","DELETE","OPTIONS"],
-    credentials: true,
-  })
-);
-//MIddleware
-app.use(express.json({ limit: "10kb"}));
-app.use(mongoSanitize());
-
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 10,
-  message: "Too many auth attempts, please try again later.",
-});
-app.use("/api/auth", authLimiter);
-
-
-const aiLimiter = rateLimit({
-  windowMs: 5 * 60 * 1000,
-  max: 10,
-  message: "Too many AI requests - slow down a bit.",
-});
-app.use("/api/resumes/:id/cover-letter", aiLimiter);
-app.use("/api/resumes/:id/optimize", aiLimiter);
-
-//Routes
-app.use("/api/auth", authRoutes);
-
-
-app.use((req, res) => {
-    res.status(404).send("Not Found");
-});
-export default app;
-// const httpServer = http.createServer(app);
-// const io = new SocketIOServer(httpServer, {
-//   cors: {
-//     origin: process.env.CORS_ORIGIN?.split(",") || "*",
-//     methods: ["GET","POST"]
-//   }
-// });
-// io.on("connection", socket => {
-//   console.log(`⚡️ Socket connected: ${socket.id}`);
-
-//   // join a “room” for a given resume ID
-//   socket.on("joinResume", (resumeId: string) => {
-//     socket.join(resumeId);
-//     console.log(`${socket.id} joined room ${resumeId}`);
-//   });
-
-//   // broadcast updates to everyone else in that room
-//   socket.on("resumeUpdated", (data: { resumeId: string, changes: any }) => {
-//     socket.to(data.resumeId).emit("resumeChange", data.changes);
-//   });
-
-//   socket.on("disconnect", () => {
-//     console.log(`🔌 Socket disconnected: ${socket.id}`);
-//   });
-// });
-// serve a basic health-check or landing message
-app.get("/", (_req, res) => {
-  res.send("🚀 Multi User INventory API is live!");
+// ─── 404 HANDLER ───────────────────────────────────────────────────
+app.use((req: Request, res: Response) => {
+  res.status(404).json({ message: "Not Found" });
 });
 
+// ─── ERROR HANDLER ─────────────────────────────────────────────────
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err);
+  res.status(err.status || 500).json({ message: err.message || "Server Error" });
+});
 
-const PORT = process.env.PORT || 4000;
-// Ensure MongoDB URI exists
-const mongoUri = process.env.MONGO_URI;
-if (!mongoUri) {
-  console.error("⚠️ MONGO_URI is not defined in .env file!");
+// ─── MONGODB CONNECTION & SERVER START ─────────────────────────────
+const MONGO_URI = process.env.MONGO_URI;
+if (!MONGO_URI) {
+  console.error("❌ MONGO_URI is not defined in .env");
   process.exit(1);
 }
 
-// if (require.main === module) {
-
-// }
-// MongoDB Connection
-(async () => {
+;(async () => {
   try {
-    await mongoose.connect(mongoUri, {
+    await mongoose.connect(MONGO_URI, {
       serverSelectionTimeoutMS: 5000,
     } as mongoose.ConnectOptions);
-    console.log("Successfully connected to MongoDB!");
 
-    // Start the server only after MongoDB connection is successful
+    console.log("✅ MongoDB Connected");
     app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error("❌ MongoDB Connection Error:", error);
+    console.error("❌ MongoDB connection error:", error);
+    process.exit(1);
   }
 })();
-// cons

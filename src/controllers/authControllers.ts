@@ -56,7 +56,7 @@ export const getProfile = async (req: Request, res: Response): Promise<void> => 
         });
     } catch (error) {
         console.error("Error fetching profile:", error);
-        res.status(500).json({ message: "Error fetching profile", error: error.message});
+        res.status(500).json({ message: "Error fetching profile", error});
     }
 } ;
 
@@ -100,7 +100,7 @@ export const updateProfile = async (req: Request, res: Response): Promise<void> 
         res.json(userToReturn);
     } catch (error) {
         console.error("Error updating profile:", error);
-        res.status(500).json({ message: "Error updating profile", error: error.message});
+        res.status(500).json({ message: "Error updating profile", error});
     }
 };
 
@@ -115,6 +115,6 @@ export const deleteProfile = async (req: Request, res: Response): Promise<void> 
         res.json({ message: "User deleted successfully"});
     } catch (error) {
         console.error("Error deleting profile:", error);
-        res.status(500).json({ message: "Error deleting profile", error: error.message});
+        res.status(500).json({ message: "Error deleting profile", error});
     }
 };
