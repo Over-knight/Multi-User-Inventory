@@ -11,7 +11,7 @@ import { Request,
  };
 
  export const isVendor = (req: Request, res: Response, next: NextFunction):void => {
-    if (req.user?.role !== "admin") {
+    if (req.user?.role !== "vendor") {
         res.status(403).json({ message: "Access denied, Vendors only"});
         return;
     }
@@ -19,7 +19,7 @@ import { Request,
  ;}
 
  export const isStaff = (req: Request, res: Response, next: NextFunction):void => {
-    if (req.user?.role !== "admin") {
+    if (req.user?.role !== "staff") {
         res.status(403).json({ message: "Access denied, Staffs only"});
         return;
     }

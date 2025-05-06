@@ -31,6 +31,7 @@ export const protect = (req: Request, res: Response, next: NextFunction): void =
     // }
     try{
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+        // console.log("Decoded JWT:", decoded); //was used for testing
         req.user = {id: decoded.id, role: decoded.role};
         next(); 
     } catch (error) {

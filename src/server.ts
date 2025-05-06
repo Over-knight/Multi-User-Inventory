@@ -10,7 +10,7 @@ import cors from "cors";
 
 import authRoutes from "./routes/authRoutes";
 import storeRoutes from "./routes/storeRoutes";
-// import productRoutes from "./routes/productRoutes";
+import productRoutes from "./routes/productRoutes";
 // import orderRoutes from "./routes/orderRoutes";
 
 const app = express();
@@ -25,7 +25,7 @@ app.use(express.json({ limit: "10kb" }));                  // parse JSON
 //routes
 app.use("/api/auth",authRoutes);    // register, login, profile
 app.use("/api/stores",  storeRoutes);   // create store, invite staff
-// app.use("/api/products",productRoutes); // CRUD products
+app.use("/api/products",productRoutes); // CRUD products
 // app.use("/api/orders",  orderRoutes);   // place & track orders
 
 

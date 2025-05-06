@@ -8,7 +8,7 @@ import { isAdmin, isStaff, isVendor } from "../middleware/roles";
 
 const router = Router();
 
-router.use(protect, isVendor, isStaff, isAdmin); // Apply middleware to all routes
+router.use(protect, isVendor); // Apply middleware to all routes
 router.post("/", protect, createStore);
 router.get("/", protect, getMyStore);
 router.put("/:id", protect, updateStore);

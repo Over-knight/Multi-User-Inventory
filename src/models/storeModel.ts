@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 
+interface Invite {
+    email: string;
+    token: string;
+    invitedAt: Date;
+    acceptedAt?: Date;
+}
+
 export interface IStore extends mongoose.Document {
     _id: mongoose.Schema.Types.ObjectId;
     storeName: string;
@@ -12,6 +19,7 @@ export interface IStore extends mongoose.Document {
     createdAt: Date;
     updatedAt: Date;
 }
+
 const storeSchema = new mongoose.Schema({
     storeName: {type: String, required: true},
     description: {type: String, required: true},
