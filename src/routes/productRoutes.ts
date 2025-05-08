@@ -12,6 +12,8 @@ const router = Router();
 router.use(protect);
 router.post("/", isVendor, createProduct);
 router.get("/", isVendor, getMyProducts);
+router.get("/:id", isVendor, getProductById);
+// router.get("/store/:id", isVendor, getMyProducts); // Assuming you want to get products by store ID
 router.put("/:id", isVendor, updateProduct);
 router.delete("/:id", isVendor, deleteProduct);
 

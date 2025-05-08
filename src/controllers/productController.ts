@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import product from "../models/productModel";
+import mongoose from "mongoose";
 
 export const createProduct = async (req: Request, res: Response): Promise<void> => {
     try{
@@ -37,14 +38,25 @@ export const getMyProducts = async (req: Request, res: Response): Promise<void> 
 };
 
 export const getProductById = async (req: Request, res: Response): Promise<void> => {
+    console.log("🔥 getProductById called with id =", req.params.id);
     try{
         const productId = req.params.id;
+        if(!mongoose.Types.ObjectId.isValid(productId)){
+            console.error(`Invalid product ID: ${productId}`);
+            res.status(400).json({ message: "Invalid product ID"});
+            return;
+        }
         const products = await product.findById({ productId});
-        if (!products) 
+        if (!products) {
+            console.error(`Product with ID ${productId} not found`);
             res.status(404).json({ message: "Product not found"});
-        res.json(products);
+            return;
+        }
+        res.status(200).json(products);
     } catch (error) {
+        console.error("Error fetching product:", error);
         res.status(500).json({ message: "Error fetching products"});
+        return;
     }
 };
 

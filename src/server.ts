@@ -11,7 +11,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import storeRoutes from "./routes/storeRoutes";
 import productRoutes from "./routes/productRoutes";
-// import orderRoutes from "./routes/orderRoutes";
+import orderRoutes from "./routes/orderRoutes";
 
 const app = express();
 const PORT = process.env.PORT || 6000;
@@ -26,7 +26,7 @@ app.use(express.json({ limit: "10kb" }));                  // parse JSON
 app.use("/api/auth",authRoutes);    // register, login, profile
 app.use("/api/stores",  storeRoutes);   // create store, invite staff
 app.use("/api/products",productRoutes); // CRUD products
-// app.use("/api/orders",  orderRoutes);   // place & track orders
+app.use("/api/orders",  orderRoutes);   // place & track orders
 
 
 app.use((req: Request, res: Response) => {

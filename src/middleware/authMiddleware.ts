@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { TokenExpiredError } from "jsonwebtoken";
 
 interface JwtPayload {
     id: string;
@@ -35,7 +36,11 @@ export const protect = (req: Request, res: Response, next: NextFunction): void =
         req.user = {id: decoded.id, role: decoded.role};
         next(); 
     } catch (error) {
+        if (error instanceof TokenExpiredError) {
+            res.status(401).json({ message: "Session expired, Please log in again" });
+        }
         console.error("JWT verification error:", error);
         res.status(401).json({ message: "Not authorized, token failed"});
+        return;
     }
 };
