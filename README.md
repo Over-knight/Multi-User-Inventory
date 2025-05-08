@@ -62,7 +62,7 @@ FROM_EMAIL="Inventory App" <no-reply@yourdomain.com>
 FRONTEND_URL=http://localhost:3000
 
 
-**##🔑 Authentication**
+  ## 🔑 Authentication
 Authorization: Bearer <JWT_TOKEN>
 
 
