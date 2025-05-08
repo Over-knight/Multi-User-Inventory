@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node dist/server.js",
+    "start": "node dist/server.js",
     "start:dev": "nodemon --watch src --exec ts-node src/server.ts",
     "dev": "ts-node-dev src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,8 +14,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.15.16",
+
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
@@ -43,6 +42,8 @@
     "node": "^24.0.0",
     "nodemailer": "^7.0.2",
     "socket.io": "^4.8.1",
-    "zod": "^3.24.4"
+    "zod": "^3.24.4",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.16"
   }
 }
