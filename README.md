@@ -40,7 +40,7 @@ npm install
 npm run dev
 
 
-🔧 Environment Variables
+**##🔧 Environment Variables**
 # Server
 PORT=6000
 MONGO_URI=your-mongodb-connection-string
@@ -62,7 +62,7 @@ FROM_EMAIL="Inventory App" <no-reply@yourdomain.com>
 FRONTEND_URL=http://localhost:3000
 
 
-🔑 Authentication
+**##🔑 Authentication**
 Authorization: Bearer <JWT_TOKEN>
 
 
@@ -102,7 +102,7 @@ Edit
   "token": "<JWT_TOKEN>",
   "user": { "_id": "...", "name": "Acme Vendor", "email": "...", "role": "vendor" }
 }
-🏪 Store Management
+**##🏪 Store Management**
 Create Store
 pgsql
 Copy
@@ -159,7 +159,7 @@ Edit
   "token": "<JWT>",
   "user": { "id": "...", "name": "Staff Member", "email": "...", "role": "staff" }
 }
-📦 Product Catalog (Vendor & Staff)
+**##📦 Product Catalog (Vendor & Staff)**
 All endpoints below require Authorization: Bearer <JWT> and vendor/staff role.
 
 Create Product
@@ -216,7 +216,7 @@ json
 Copy
 Edit
 { "message": "Product deleted successfully" }
-🛒 Order Processing (Vendor & Staff)
+**##🛒 Order Processing (Vendor & Staff)**
 Create Order
 bash
 Copy
@@ -270,7 +270,7 @@ json
 Copy
 Edit
  "message": "Order deleted successfully" 
-📚 Development & Tooling
+##**📚 Development & Tooling**
 bash
 Copy
 Edit
@@ -291,7 +291,5 @@ npm install nodemailer @types/nodemailer
 
 # Testing (optional)
 npm install --save-dev jest ts-jest supertest mongodb-memory-server @types/jest @types/supertest
-⚖️ License
-MIT
 
 Built with ❤️ by Over-knight
